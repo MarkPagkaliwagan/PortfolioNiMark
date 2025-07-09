@@ -47,7 +47,7 @@ export default function ElegantCertificates() {
 
   return (
     <section
-      id="certipications"
+      id="certifications"
       className="scroll-mt-16 bg-transparent text-white py-10 px-6 flex flex-col items-center"
     >
       {/* Heading */}
