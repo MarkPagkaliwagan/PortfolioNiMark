@@ -1,5 +1,5 @@
 import React from 'react';
-import profileImg from '../assets/profile.jpg';
+import profileImg from '../assets/Profile.jpg';
 import { Goal } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Language from './Language';
