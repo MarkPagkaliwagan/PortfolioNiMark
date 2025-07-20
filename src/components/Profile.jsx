@@ -12,21 +12,31 @@ export default function Profile() {
     >
       <motion.div
         className="w-full max-w-6xl mx-auto flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between"
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+        initial={{ opacity: 0, y: 100 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: false, amount: 0.2 }}
+        transition={{ duration: 1, ease: 'easeOut' }}
       >
         {/* Profile Card */}
-        <div className="w-full lg:w-[350px] bg-black/60 border border-green-500 rounded-2xl p-6 backdrop-blur-xl shadow-[0_0_40px_#00ff95] flex flex-col gap-6 relative overflow-hidden">
+        <motion.div
+          className="w-full lg:w-[380px] bg-black/60 border border-green-500 rounded-2xl p-6 backdrop-blur-xl shadow-[0_0_40px_#00ff95] flex flex-col gap-6 relative overflow-hidden"
+          initial={{ opacity: 0, scale: 0.8 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
           <div className="absolute -top-4 -left-4 w-16 h-16 bg-green-400 blur-2xl opacity-20 rounded-full z-0" />
           <div className="absolute -bottom-10 -right-10 w-24 h-24 bg-green-400 blur-2xl opacity-10 rounded-full z-0" />
 
-          <motion.div className="relative w-fit" whileHover={{ scale: 1.05 }} transition={{ type: 'spring', stiffness: 150 }}>
+          <motion.div
+            className="relative w-fit"
+            whileHover={{ scale: 1.1, rotate: 1 }}
+            transition={{ type: 'spring', stiffness: 150 }}
+          >
             <div className="absolute inset-0 rounded-xl border border-green-500 animate-pulse opacity-20" />
             <img
               src={profileImg}
               alt="Mark Jeus"
-              className="w-36 h-36 rounded-xl border-2 border-green-400 object-cover shadow-md relative z-10"
+              className="w-40 h-40 rounded-xl border-2 border-green-400 object-cover shadow-md relative z-10"
             />
           </motion.div>
 
@@ -40,10 +50,16 @@ export default function Profile() {
             I enjoy exploring new tech and figuring out how things work, especially in programming. 
             My dream is to help my family by growing as a skilled developer.
           </p>
-        </div>
+        </motion.div>
 
         {/* Goals & Language */}
-        <div className="w-full flex flex-col gap-8">
+        <motion.div
+          className="w-full flex flex-col gap-8"
+          initial={{ opacity: 0, x: 100 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: false, amount: 0.3 }}
+          transition={{ duration: 1, delay: 0.3 }}
+        >
           <div className="bg-black/50 border border-green-500 rounded-2xl p-6 backdrop-blur-md shadow-[0_0_20px_#00ff95]">
             <div className="flex items-center gap-2 text-green-300 font-bold mb-4 text-sm">
               <Goal className="w-4 h-4" />
@@ -58,7 +74,7 @@ export default function Profile() {
           </div>
 
           <Language />
-        </div>
+        </motion.div>
       </motion.div>
     </section>
   );

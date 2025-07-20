@@ -53,9 +53,10 @@ export default function ElegantCertificates() {
       {/* Heading */}
       <motion.h2
         className="text-3xl md:text-4xl font-bold mb-10 text-green-400"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
+        initial={{ opacity: 0, y: -80 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: false }}
+        transition={{ duration: 0.8, ease: 'easeOut' }}
       >
         <FaCertificate className="inline mr-2 text-green-400" />
         My Certificates
@@ -67,9 +68,10 @@ export default function ElegantCertificates() {
           <motion.div
             key={cert.title}
             className="rounded-xl overflow-hidden shadow-lg bg-black/20 backdrop-blur-md border border-green-500 hover:scale-105 transition-all duration-300 cursor-pointer"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.2 }}
+            initial={{ opacity: 0, y: 100 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ duration: 0.8, delay: index * 0.2, ease: 'easeOut' }}
             onClick={() => setSelected(cert)}
           >
             <img
@@ -110,7 +112,6 @@ export default function ElegantCertificates() {
               transition={{ duration: 0.3 }}
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Close Button */}
               <button
                 onClick={() => setSelected(null)}
                 className="absolute top-4 right-4 z-50 text-white bg-black/60 hover:bg-black/80 rounded-full p-2 transition"
@@ -118,7 +119,6 @@ export default function ElegantCertificates() {
                 <IoClose className="text-2xl" />
               </button>
 
-              {/* Zoom Image */}
               <Zoom>
                 <img
                   src={selected.image}
@@ -127,7 +127,6 @@ export default function ElegantCertificates() {
                 />
               </Zoom>
 
-              {/* Metadata */}
               <div className="mt-6 text-center text-green-300">
                 <h3 className="text-2xl font-bold">{selected.title}</h3>
                 <p className="text-md text-green-400">{selected.issuer}</p>
