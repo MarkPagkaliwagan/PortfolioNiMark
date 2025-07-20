@@ -3,10 +3,9 @@ import { motion } from "framer-motion";
 import { FaRocket, FaLaptopCode, FaUsers } from "react-icons/fa";
 import { Card, CardContent } from "./ui/card";
 
-import pic1 from '../assets/pic1.jpg';
-import pic2 from '../assets/pic2.jpg';
-import pic3 from '../assets/pic3.jpg';
-
+import pic1 from "../assets/pic1.jpg";
+import pic2 from "../assets/pic2.jpg";
+import pic3 from "../assets/pic3.jpg";
 
 export default function Project() {
   const projects = [
@@ -22,82 +21,93 @@ export default function Project() {
     },
     {
       title: "SASO Website",
-      description: "Simple wibsite For the department of SASO",
+      description: "Simple website for the department of SASO.",
       image: pic3,
     },
   ];
 
   return (
-    <section
+    <motion.section
       id="projects"
-      className="scroll-mt-16 bg-transparent text-white py-9 px-4 sm:px-6 lg:px-12"
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: false, amount: 0.3 }}
+      className="scroll-mt-16 bg-black text-white py-28 px-4 sm:px-6 lg:px-12"
     >
-      <div className="max-w-6xl mx-auto">
-        {/* Title */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-4"
-        >
-          <h2 className="text-4xl font-bold flex justify-center items-center gap-3 text-green-400">
-            <FaRocket className="text-green-400 animate-bounce" />
-            My Projects
-          </h2>
-        </motion.div>
+      <motion.div
+        variants={{
+          hidden: { opacity: 0, y: -100 },
+          show: {
+            opacity: 1,
+            y: 0,
+            transition: { duration: 1, type: "spring", bounce: 0.4 },
+          },
+        }}
+        className="text-center mb-8"
+      >
+        <h2 className="text-5xl font-bold flex justify-center items-center gap-4 text-green-400">
+          <FaRocket className="animate-bounce" />
+          My Projects
+        </h2>
+      </motion.div>
 
-        {/* Subtitle */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3, duration: 0.6 }}
-          className="text-lg text-zinc-300 mb-12 text-center flex justify-center items-center gap-2"
-        >
-          <FaLaptopCode className="text-blue-400" />
-          Solo projects &nbsp;|&nbsp;
-          <FaUsers className="text-pink-400" />
-          Collaborations
-        </motion.p>
+      <motion.p
+        variants={{
+          hidden: { opacity: 0, y: -50 },
+          show: {
+            opacity: 1,
+            y: 0,
+            transition: { delay: 0.3, duration: 1, type: "spring", bounce: 0.3 },
+          },
+        }}
+        className="text-xl text-zinc-300 mb-16 text-center flex justify-center items-center gap-3"
+      >
+        <FaLaptopCode className="text-blue-400" />
+        Solo Projects &nbsp;|&nbsp;
+        <FaUsers className="text-pink-400" />
+        Collaborations
+      </motion.p>
 
-        {/* Project Cards */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.4, duration: 0.6 }}
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
-        >
-          {projects.map((project, index) => (
-            <motion.div
-              key={index}
-              whileHover={{ scale: 1.05 }}
-              className="transition-transform duration-300 cursor-pointer"
-            >
-              <Card className="bg-black/20 backdrop-blur-md border border-green-500 text-white rounded-xl shadow-lg overflow-hidden hover:shadow-green-400/20 transition">
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-80 object-cover object-top"
-                />
-                <CardContent className="p-4">
-                  <h3 className="text-xl font-semibold text-green-300 mb-2">{project.title}</h3>
-                  <p className="text-green-400 text-sm mb-3">{project.description}</p>
-                  <a
-                    href={project.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-green-400 hover:underline text-sm"
-                  >
-                    View Project →
-                  </a>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </motion.div>
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
+        {projects.map((project, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 150 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, amount: 0.3 }}
+            transition={{
+              delay: index * 0.3,
+              duration: 1,
+              type: "spring",
+              bounce: 0.5,
+            }}
+            whileHover={{ scale: 1.1 }}
+            className="transition-transform duration-300 cursor-pointer"
+          >
+            <Card className="bg-black/30 backdrop-blur-md border border-green-500 text-white rounded-2xl shadow-xl hover:shadow-green-400/40 transition-all duration-300">
+              <img
+                src={project.image}
+                alt={project.title}
+                className="w-full h-80 object-cover object-top rounded-t-2xl"
+              />
+              <CardContent className="p-5">
+                <h3 className="text-2xl font-semibold text-green-300 mb-2">
+                  {project.title}
+                </h3>
+                <p className="text-green-400 text-sm mb-3">{project.description}</p>
+                <a
+                  href={project.link || "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-green-400 hover:underline text-sm"
+                >
+                  View Project →
+                </a>
+              </CardContent>
+            </Card>
+          </motion.div>
+        ))}
       </div>
-    </section>
+    </motion.section>
   );
 }
