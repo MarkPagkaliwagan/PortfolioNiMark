@@ -32,7 +32,8 @@ export default function Project() {
       initial="hidden"
       whileInView="show"
       viewport={{ once: false, amount: 0.3 }}
-      className="scroll-mt-16 bg-black text-white py-28 px-4 sm:px-6 lg:px-12"
+      className="scroll-mt-16 bg-gray-700 dark:bg-black text-white py-28 px-4 sm:px-6 lg:px-12 transition-colors duration-500"
+
     >
       <motion.div
         variants={{
@@ -45,7 +46,7 @@ export default function Project() {
         }}
         className="text-center mb-8"
       >
-        <h2 className="text-5xl font-bold flex justify-center items-center gap-4 text-green-400">
+        <h2 className="text-5xl font-bold flex justify-center items-center gap-4 text-green-600 dark:text-green-400">
           <FaRocket className="animate-bounce" />
           My Projects
         </h2>
@@ -60,11 +61,11 @@ export default function Project() {
             transition: { delay: 0.3, duration: 1, type: "spring", bounce: 0.3 },
           },
         }}
-        className="text-xl text-zinc-300 mb-16 text-center flex justify-center items-center gap-3"
+        className="text-xl text-zinc-600 dark:text-zinc-300 mb-16 text-center flex justify-center items-center gap-3"
       >
-        <FaLaptopCode className="text-blue-400" />
+        <FaLaptopCode className="text-blue-500 dark:text-blue-400" />
         Solo Projects &nbsp;|&nbsp;
-        <FaUsers className="text-pink-400" />
+        <FaUsers className="text-pink-500 dark:text-pink-400" />
         Collaborations
       </motion.p>
 
@@ -81,25 +82,27 @@ export default function Project() {
               type: "spring",
               bounce: 0.5,
             }}
-            whileHover={{ scale: 1.1 }}
+            whileHover={{ scale: 1.05 }}
             className="transition-transform duration-300 cursor-pointer"
           >
-            <Card className="bg-black/30 backdrop-blur-md border border-green-500 text-white rounded-2xl shadow-xl hover:shadow-green-400/40 transition-all duration-300">
+            <Card className="bg-white/80 dark:bg-gray-800 backdrop-blur-md border border-green-400 text-black dark:text-white rounded-2xl shadow-xl hover:shadow-green-400/40 transition-all duration-300">
               <img
                 src={project.image}
                 alt={project.title}
                 className="w-full h-80 object-cover object-top rounded-t-2xl"
               />
               <CardContent className="p-5">
-                <h3 className="text-2xl font-semibold text-green-300 mb-2">
+                <h3 className="text-2xl font-semibold text-green-700 dark:text-green-300 mb-2">
                   {project.title}
                 </h3>
-                <p className="text-green-400 text-sm mb-3">{project.description}</p>
+                <p className="text-green-600 dark:text-green-400 text-sm mb-3">
+                  {project.description}
+                </p>
                 <a
                   href={project.link || "#"}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-green-400 hover:underline text-sm"
+                  className="text-green-700 dark:text-green-400 hover:underline text-sm"
                 >
                   View Project →
                 </a>
