@@ -1,141 +1,126 @@
-import React, { useState, useEffect } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
-import { FaCertificate, FaUniversity } from 'react-icons/fa';
-import { IoClose } from 'react-icons/io5';
-import { HiDocumentText } from 'react-icons/hi';
-import { FiClock } from 'react-icons/fi';
-import Zoom from 'react-medium-image-zoom';
-import 'react-medium-image-zoom/dist/styles.css';
+import React, { useState } from 'react';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
-import cert1 from '../assets/cert1.jpg';
-import cert2 from '../assets/cert2.jpg';
-import cert3 from '../assets/cert3.jpg';
+const imageModules = import.meta.glob('../assets/Certificate/*.{jpg,jpeg,png}', { eager: true });
 
-const certificates = [
-  {
-    title: 'NC II Computer Systems Servicing',
-    issuer: 'TESDA',
-    date: 'June 21, 2024',
-    image: cert1,
-  },
-  {
-    title: 'Build a Free Website with WordPress',
-    issuer: 'Coursera',
-    date: 'April 10, 2024',
-    image: cert2,
-  },
-  {
-    title: 'Introduction to Microsoft Excel',
-    issuer: 'Coursera',
-    date: 'April 10, 2024',
-    image: cert3,
-  },
-];
+const originalCertificates = Object.entries(imageModules).map(([path, mod]) => ({
+  image: mod.default,
+  title: path.split('/').pop().split('.')[0].replace(/[-_]/g, ' '),
+}));
 
-export default function ElegantCertificates() {
-  const [selected, setSelected] = useState(null);
+const duplicateCertificates = [...originalCertificates, ...originalCertificates];
+const mid = Math.ceil(duplicateCertificates.length / 2);
+const topRow = duplicateCertificates.slice(0, mid);
+const bottomRow = duplicateCertificates.slice(mid);
 
-  useEffect(() => {
-    const handleEsc = (event) => {
-      if (event.key === 'Escape') {
-        setSelected(null);
-      }
-    };
-    window.addEventListener('keydown', handleEsc);
-    return () => window.removeEventListener('keydown', handleEsc);
-  }, []);
+const baseSliderSettings = {
+  arrows: false,
+  dots: false,
+  infinite: true,
+  speed: 12000,
+  autoplaySpeed: 0,
+  cssEase: 'linear',
+  autoplay: true,
+  slidesToScroll: 1,
+  pauseOnHover: false,
+  pauseOnFocus: false,
+  swipe: false,
+  touchMove: false,
+  draggable: false,
+  slidesToShow: 5,
+  responsive: [
+    { breakpoint: 1536, settings: { slidesToShow: 4 } },
+    { breakpoint: 1024, settings: { slidesToShow: 3 } },
+    { breakpoint: 768, settings: { slidesToShow: 2 } },
+    { breakpoint: 480, settings: { slidesToShow: 1 } },
+  ],
+};
+
+export default function Certificate() {
+  const [modalImage, setModalImage] = useState(null);
 
   return (
     <section
-      id="certifications"
-      className="scroll-mt-16 bg-transparent text-white py-10 px-6 flex flex-col items-center"
+      id="certificate"
+      className="bg-gray-700 dark:bg-black text-gray-900 dark:text-white w-screen overflow-x-hidden py-10"
     >
-      {/* Heading */}
-      <motion.h2
-        className="text-3xl md:text-4xl font-bold mb-10 text-green-400"
-        initial={{ opacity: 0, y: -80 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: false }}
-        transition={{ duration: 0.8, ease: 'easeOut' }}
-      >
-        <FaCertificate className="inline mr-2 text-green-400" />
-        My Certificates
-      </motion.h2>
-
-      {/* Certificate Grid */}
-      <div className="w-full max-w-7xl grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-        {certificates.map((cert, index) => (
-          <motion.div
-            key={cert.title}
-            className="rounded-xl overflow-hidden shadow-lg bg-black/20 backdrop-blur-md border border-green-500 hover:scale-105 transition-all duration-300 cursor-pointer"
-            initial={{ opacity: 0, y: 100 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.2 }}
-            transition={{ duration: 0.8, delay: index * 0.2, ease: 'easeOut' }}
-            onClick={() => setSelected(cert)}
-          >
-            <img
-              src={cert.image}
-              alt={cert.title || 'Certificate Image'}
-              className="w-full h-80 object-cover object-top"
-            />
-            <div className="p-4">
-              <p className="text-lg font-semibold text-green-300 flex items-center gap-2">
-                <HiDocumentText /> {cert.title}
-              </p>
-              <p className="text-sm text-green-400 flex items-center gap-2 mt-1">
-                <FaUniversity /> {cert.issuer}
-              </p>
-              <p className="text-xs text-green-500 flex items-center gap-2 mt-1">
-                <FiClock /> {cert.date}
-              </p>
-            </div>
-          </motion.div>
-        ))}
+      <div className="relative text-center mb-16">
+        <div className="inline-block px-8 py-4 border-4 border-green-400 rounded-xl shadow-lg bg-gradient-to-br from-white via-gray-100 to-white dark:from-black dark:via-gray-900 dark:to-black">
+          <h2 className="text-4xl sm:text-5xl font-extrabold text-green-600 dark:text-green-400 tracking-widest uppercase drop-shadow-md">
+            My Certificates
+          </h2>
+          <div className="mt-2 w-full h-1 bg-green-500 rounded-full animate-pulse"></div>
+        </div>
+        <p className="mt-6 text-white dark:text-gray-400 text-sm max-w-xl mx-auto italic">
+          These represent the hard work, learning, and milestones I’ve proudly achieved.
+        </p>
       </div>
 
-      {/* Modal Fullscreen View */}
-      <AnimatePresence>
-        {selected && (
-          <motion.div
-            className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setSelected(null)}
-          >
-            <motion.div
-              className="relative w-full max-w-6xl"
-              initial={{ scale: 0.9 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.9 }}
-              transition={{ duration: 0.3 }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button
-                onClick={() => setSelected(null)}
-                className="absolute top-4 right-4 z-50 text-white bg-black/60 hover:bg-black/80 rounded-full p-2 transition"
+      {/* Top row - scrolls left */}
+      <div className="w-screen overflow-hidden">
+        <Slider {...baseSliderSettings}>
+          {topRow.map((cert, i) => (
+            <div key={i} className="px-2">
+              <div
+                onClick={() => setModalImage(cert.image)}
+                className="cursor-pointer bg-gray-700 dark:bg-gray-900 border border-green-500 rounded-lg shadow-md hover:scale-105 transition-transform duration-300"
               >
-                <IoClose className="text-2xl" />
-              </button>
-
-              <Zoom>
                 <img
-                  src={selected.image}
-                  alt={selected.title || 'Selected Certificate'}
-                  className="w-full h-auto object-contain rounded-lg border border-green-400 shadow-2xl"
+                  src={cert.image}
+                  alt={cert.title}
+                  className="w-full h-64 object-cover object-top rounded-t-lg"
                 />
-              </Zoom>
-
-              <div className="mt-6 text-center text-green-300">
-                <h3 className="text-2xl font-bold">{selected.title}</h3>
-                <p className="text-md text-green-400">{selected.issuer}</p>
-                <p className="text-sm text-green-500">{selected.date}</p>
+                <div className="p-3 text-center">
+                  <p className="text-green-600 dark:text-green-300 text-base font-semibold capitalize tracking-wide line-clamp-1">
+                    {cert.title}
+                  </p>
+                </div>
               </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            </div>
+          ))}
+        </Slider>
+      </div>
+
+      {/* Bottom row - scrolls right (rtl) */}
+      <div className="w-screen overflow-hidden mt-8">
+        <Slider {...{ ...baseSliderSettings, rtl: true }}>
+          {bottomRow.map((cert, i) => (
+            <div key={i} className="px-2">
+              <div
+                onClick={() => setModalImage(cert.image)}
+                className="cursor-pointer bg-gray-700 dark:bg-gray-900 border border-green-500 rounded-lg shadow-md hover:scale-105 transition-transform duration-300"
+              >
+                <img
+                  src={cert.image}
+                  alt={cert.title}
+                  className="w-full h-64 object-cover object-top rounded-t-lg"
+                />
+                <div className="p-3 text-center">
+                  <p className="text-green-600 dark:text-green-300 text-sm font-semibold truncate">
+                    {cert.title}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </Slider>
+      </div>
+
+      {/* Modal */}
+      {modalImage && (
+        <div
+          className="fixed inset-0 bg-black/90 dark:bg-white/90 flex items-center justify-center z-50"
+          onClick={() => setModalImage(null)}
+        >
+          <img
+            src={modalImage}
+            alt="Full Certificate"
+            className="max-w-[90%] max-h-[90%] rounded-xl border-4 border-green-500 shadow-xl transition-transform scale-100"
+          />
+        </div>
+      )}
     </section>
   );
 }

@@ -29,80 +29,69 @@ export default function Project() {
   return (
     <motion.section
       id="projects"
+      className="scroll-mt-16 bg-gray-700 text-black dark:bg-black dark:text-white py-20 px-4 sm:px-6 lg:px-12 overflow-x-hidden"
       initial="hidden"
       whileInView="show"
       viewport={{ once: false, amount: 0.3 }}
-      className="scroll-mt-16 bg-gray-700 dark:bg-black text-white py-28 px-4 sm:px-6 lg:px-12 transition-colors duration-500"
-
     >
+      {/* 🔰 Section Title */}
       <motion.div
+        className="text-center mb-16"
         variants={{
-          hidden: { opacity: 0, y: -100 },
-          show: {
-            opacity: 1,
-            y: 0,
-            transition: { duration: 1, type: "spring", bounce: 0.4 },
-          },
+          hidden: { opacity: 0, y: -80 },
+          show: { opacity: 1, y: 0, transition: { duration: 0.8 } },
         }}
-        className="text-center mb-8"
       >
-        <h2 className="text-5xl font-bold flex justify-center items-center gap-4 text-green-600 dark:text-green-400">
-          <FaRocket className="animate-bounce" />
-          My Projects
-        </h2>
+        <div className="inline-block px-8 py-4 border-4 border-green-400 rounded-xl shadow-lg bg-gradient-to-br from-white via-gray-100 to-white dark:from-black dark:via-gray-900 dark:to-black">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-green-500 tracking-widest uppercase drop-shadow-md flex items-center justify-center gap-3">
+            <FaRocket className="animate-bounce" />
+            My Projects
+          </h2>
+          <div className="mt-2 w-full h-1 bg-green-500 rounded-full animate-pulse"></div>
+        </div>
+        <p className="mt-6 text-white dark:text-gray-400 text-sm max-w-xl mx-auto italic flex items-center justify-center gap-3">
+          <FaLaptopCode className="text-blue-500 dark:text-blue-400" />
+          Solo Projects &nbsp;|&nbsp;
+          <FaUsers className="text-pink-500 dark:text-pink-400" />
+          Collaborations
+        </p>
       </motion.div>
 
-      <motion.p
-        variants={{
-          hidden: { opacity: 0, y: -50 },
-          show: {
-            opacity: 1,
-            y: 0,
-            transition: { delay: 0.3, duration: 1, type: "spring", bounce: 0.3 },
-          },
-        }}
-        className="text-xl text-zinc-600 dark:text-zinc-300 mb-16 text-center flex justify-center items-center gap-3"
-      >
-        <FaLaptopCode className="text-blue-500 dark:text-blue-400" />
-        Solo Projects &nbsp;|&nbsp;
-        <FaUsers className="text-pink-500 dark:text-pink-400" />
-        Collaborations
-      </motion.p>
-
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
+      {/* 🧩 Project Cards */}
+      <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-7xl mx-auto">
         {projects.map((project, index) => (
           <motion.div
             key={index}
-            initial={{ opacity: 0, y: 150 }}
+            initial={{ opacity: 0, y: 100 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.3 }}
+            viewport={{ once: false, amount: 0.2 }}
             transition={{
               delay: index * 0.3,
-              duration: 1,
+              duration: 0.8,
               type: "spring",
-              bounce: 0.5,
+              bounce: 0.4,
             }}
             whileHover={{ scale: 1.05 }}
             className="transition-transform duration-300 cursor-pointer"
           >
-            <Card className="bg-white/80 dark:bg-gray-800 backdrop-blur-md border border-green-400 text-black dark:text-white rounded-2xl shadow-xl hover:shadow-green-400/40 transition-all duration-300">
+            <Card className="bg-gray-700 dark:bg-white/10 border border-green-500 text-black dark:text-white rounded-2xl shadow-xl backdrop-blur-md hover:shadow-green-400/40 transition-all duration-300">
               <img
                 src={project.image}
                 alt={project.title}
-                className="w-full h-80 object-cover object-top rounded-t-2xl"
+                className="w-full h-64 object-cover rounded-t-2xl"
               />
               <CardContent className="p-5">
-                <h3 className="text-2xl font-semibold text-green-700 dark:text-green-300 mb-2">
+                <h3 className="text-2xl font-semibold text-green-600 dark:text-green-300 mb-2">
                   {project.title}
                 </h3>
-                <p className="text-green-600 dark:text-green-400 text-sm mb-3">
+                <p className="text-green-700 dark:text-green-400 text-sm mb-3">
                   {project.description}
                 </p>
                 <a
                   href={project.link || "#"}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-green-700 dark:text-green-400 hover:underline text-sm"
+                  className="text-green-600 dark:text-green-400 hover:underline text-sm"
                 >
                   View Project →
                 </a>
