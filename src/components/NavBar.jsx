@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { FolderGit2, BadgeCheck, Mail, Code2, FileText, Menu, X, Moon, Sun } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import ResumeModal from "./ResumeModal";
 
 export default function NavBar() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [menuOpen, setMenuOpen] = useState(false);
-  const [resumeOpen, setResumeOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(() => localStorage.getItem("theme") === "dark");
 
   useEffect(() => {
@@ -32,7 +30,12 @@ export default function NavBar() {
     { name: 'Projects', icon: <FolderGit2 size={16} className="mr-2" />, href: '#projects' },
     { name: 'Certifications', icon: <BadgeCheck size={16} className="mr-2" />, href: '#certificate' },
     { name: 'Contact', icon: <Mail size={16} className="mr-2" />, href: '#contact' },
-    { name: 'Resume', icon: <FileText size={16} className="mr-2" />, action: () => setResumeOpen(true) },
+    {
+      name: 'Resume',
+      icon: <FileText size={16} className="mr-2" />,
+      href: "/ResumeNiMark.pdf", // ✅ FIXED
+      external: true
+    },
   ];
 
   return (
@@ -46,7 +49,7 @@ export default function NavBar() {
                       bg-black/50 dark:bg-white/10 border border-green-400 dark:border-white/30 
                       backdrop-blur-md shadow-[0_0_15px_#00ff95] relative">
 
-        {/* Left: Name and Time/Date */}
+        {/* Left Side */}
         <div className="flex items-center gap-3 flex-wrap">
           <motion.div
             className="w-fit px-4 py-2 rounded-lg bg-gradient-to-r from-green-400/20 via-green-600/30 to-green-400/20 
@@ -72,7 +75,7 @@ export default function NavBar() {
           </div>
         </div>
 
-        {/* Mobile Burger Button */}
+        {/* Burger Button (mobile) */}
         <div className="sm:hidden flex items-center gap-2">
           <button
             className="text-green-300 hover:text-white"
@@ -82,10 +85,24 @@ export default function NavBar() {
           </button>
         </div>
 
-        {/* Nav Items */}
+        {/* Nav Items Desktop */}
         <div className="hidden sm:flex flex-row items-center gap-2">
           {navItems.map((item, index) =>
-            item.href ? (
+            item.external ? (
+              <motion.a
+                key={index}
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center px-3 py-1 rounded-md text-green-300 dark:text-white font-mono text-sm 
+                           hover:text-green-100 hover:bg-green-400/10 transition-all duration-300"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                {item.icon}
+                {item.name}
+              </motion.a>
+            ) : (
               <motion.a
                 key={index}
                 href={item.href}
@@ -97,22 +114,10 @@ export default function NavBar() {
                 {item.icon}
                 {item.name}
               </motion.a>
-            ) : (
-              <motion.button
-                key={index}
-                onClick={item.action}
-                className="flex items-center px-3 py-1 rounded-md text-green-300 dark:text-white font-mono text-sm 
-                           hover:text-green-100 hover:bg-green-400/10 transition-all duration-300"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                {item.icon}
-                {item.name}
-              </motion.button>
             )
           )}
 
-          {/* 🌙 Dark Mode Toggle */}
+          {/* Dark Mode Toggle */}
           <motion.button
             onClick={() => setDarkMode(!darkMode)}
             whileHover={{ scale: 1.1 }}
@@ -125,7 +130,7 @@ export default function NavBar() {
           </motion.button>
         </div>
 
-        {/* Mobile Nav Menu */}
+        {/* Mobile Nav Dropdown */}
         <AnimatePresence>
           {menuOpen && (
             <motion.div
@@ -135,7 +140,18 @@ export default function NavBar() {
               className="absolute top-full left-0 w-full flex flex-col items-center bg-black/90 border-t border-green-400 mt-2 rounded-b-2xl shadow-[0_5px_15px_#00ff95] sm:hidden z-50"
             >
               {navItems.map((item, index) =>
-                item.href ? (
+                item.external ? (
+                  <a
+                    key={index}
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setMenuOpen(false)}
+                    className="w-full text-center py-2 px-4 text-green-300 dark:text-white font-mono hover:bg-green-500/10"
+                  >
+                    {item.name}
+                  </a>
+                ) : (
                   <a
                     key={index}
                     href={item.href}
@@ -144,21 +160,10 @@ export default function NavBar() {
                   >
                     {item.name}
                   </a>
-                ) : (
-                  <button
-                    key={index}
-                    onClick={() => {
-                      setMenuOpen(false);
-                      item.action();
-                    }}
-                    className="w-full text-center py-2 px-4 text-green-300 dark:text-white font-mono hover:bg-green-500/10"
-                  >
-                    {item.name}
-                  </button>
                 )
               )}
 
-              {/* 🌙 Mobile Toggle */}
+              {/* Mobile Dark Mode Toggle */}
               <button
                 onClick={() => setDarkMode(!darkMode)}
                 className="w-full text-center py-2 px-4 text-green-300 dark:text-white font-mono hover:bg-green-500/10 flex items-center justify-center"
@@ -170,9 +175,6 @@ export default function NavBar() {
           )}
         </AnimatePresence>
       </div>
-
-      {/* Resume Modal */}
-      <ResumeModal isOpen={resumeOpen} onClose={() => setResumeOpen(false)} />
     </motion.div>
   );
 }
