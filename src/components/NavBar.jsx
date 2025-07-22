@@ -33,7 +33,7 @@ export default function NavBar() {
     {
       name: 'Resume',
       icon: <FileText size={16} className="mr-2" />,
-      href: "/ResumeNiMark.pdf", // ✅ FIXED
+      href: "/PortfolioNiMark/ResumeNiMark.pdf",
       external: true
     },
   ];

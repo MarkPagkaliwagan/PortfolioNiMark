@@ -9,6 +9,5 @@ export default defineConfig({
       '@': path.resolve(__dirname, 'src'),
     },
   },
-  // 👇 THIS IS IMPORTANT FOR GITHUB PAGES or NETLIFY!
-  base: './',
+  base: '/PortfolioNiMark/', // ✅ FIXED for GitHub Pages
 })
