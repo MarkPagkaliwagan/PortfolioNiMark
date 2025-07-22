@@ -30,7 +30,7 @@ export default function NavBar() {
 
   const navItems = [
     { name: 'Projects', icon: <FolderGit2 size={16} className="mr-2" />, href: '#projects' },
-    { name: 'Certifications', icon: <BadgeCheck size={16} className="mr-2" />, href: '#Certificate' },
+    { name: 'Certifications', icon: <BadgeCheck size={16} className="mr-2" />, href: '#certificate' },
     { name: 'Contact', icon: <Mail size={16} className="mr-2" />, href: '#contact' },
     { name: 'Resume', icon: <FileText size={16} className="mr-2" />, action: () => setResumeOpen(true) },
   ];
